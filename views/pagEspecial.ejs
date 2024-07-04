@@ -1,0 +1,20 @@
+<!-- views/pagEspecial.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Especial</title>
+</head>
+<body>
+    <h1>Página Especial</h1>
+    <form action="/private" method="post" enctype="multipart/form-data">
+        <input type="text" name="Nombre" placeholder="Nombre del podcast">
+        <input type="text" name="Tema" placeholder="Tema del podcast">
+        <input type="text" name="Descripcion" placeholder="Descripción del podcast">
+        <input type="file" name="Documento" />
+      
+        <input type="submit" value="Crear Podcast">
+    </form>
+</body>
+</html>

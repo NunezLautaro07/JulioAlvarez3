@@ -1,0 +1,81 @@
+.imagen-podcast {
+    width: 100%;
+    border-radius: 7px;
+  }
+  a {
+    color: inherit 
+  }
+  .hola{background-color: aqua;}
+  .estatico-sidebar {
+    position: relative; /* Por defecto para pantallas pequeñas */
+  }
+  
+  .margen {
+    margin: 0;
+  }
+  
+  .negro {
+    color: black;
+  }
+  
+  
+  
+  .margen-arriba-nav {
+    margin-top: 0px;
+  }
+  
+  .margen-arriba-nav-sidebar {
+    margin-top: 22px;
+    margin-left: -2%;
+    
+  }
+  
+  .margen-arriba-nav-form {
+    margin-top: 0px;
+    text-align: center;
+      margin-left: 3.9%;
+  }
+  @media (max-width: 768px) {
+    .margen-arriba-nav-sidebar {
+     display: none;
+    }
+  }
+  
+  
+  @media (max-width: 992px) {
+    .margen-arriba-nav-form {
+      margin-right: 20%;
+      margin-left: 20%;
+    }
+  }
+  
+  /* Media Query para pantallas con un ancho mínimo de 1200px */
+  @media (min-width: 995px) {
+    .estatico-sidebar {
+      position: fixed; /* Solo para pantallas XL o más grandes */
+    }
+  
+    .margen-arriba-nav {
+      margin-top: 80px; /* Mantener el margen para pantallas grandes */
+    }
+  
+    .margen-arriba-nav-sidebar {
+      margin-top: 80px;
+      
+      /* Mantener el margen para pantallas grandes */
+    }
+  
+    .margen-arriba-nav-form {
+      margin-top: 88px;
+      margin-right: 4%;
+       /* Mantener el margen para pantallas grandes */
+    }
+  }
+  @media (min-width: 1600px) {
+    .margen-arriba-nav-form {
+      margin-right: 0%;
+      margin-left: 6%;
+    }
+  }
+  .margen-pdf{margin-right: 5px;}
+  
