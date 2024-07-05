@@ -9,73 +9,72 @@
     <link rel="stylesheet" href="./cssaw/solid.css">
     <link rel="stylesheet" href="./css/style.css">
     <style>
-.imagen-podcast {
-    width: 100%;
-    border-radius: 7px;
-}
-a {
-    color: inherit;
-}
-.hola {
-    background-color: aqua;
-}
-.estatico-sidebar {
-    position: relative;
-}
-.margen {
-    margin: 0;
-}
-.negro {
-    color: black;
-}
-.margen-arriba-nav {
-    margin-top: 0px;
-}
-.margen-arriba-nav-sidebar {
-    margin-top: 22px;
-    margin-left: -2%;
-}
-.margen-arriba-nav-form {
-    margin-top: 0px;
-    text-align: center;
-    margin-left: 3.9%;
-}
-@media (max-width: 768px) {
-    .margen-arriba-nav-sidebar {
-        display: none;
-    }
-}
-@media (max-width: 992px) {
-    .margen-arriba-nav-form {
-        margin-right: 20%;
-        margin-left: 20%;
-    }
-}
-@media (min-width: 995px) {
-    .estatico-sidebar {
-        position: fixed;
-    }
-    .margen-arriba-nav {
-        margin-top: 80px;
-    }
-    .margen-arriba-nav-sidebar {
-        margin-top: 80px;
-    }
-    .margen-arriba-nav-form {
-        margin-top: 88px;
-        margin-right: 4%;
-    }
-}
-@media (min-width: 1600px) {
-    .margen-arriba-nav-form {
-        margin-right: 0%;
-        margin-left: 6%;
-    }
-}
-.margen-pdf {
-    margin-right: 5px;
-}
-
+        .imagen-podcast {
+            width: 100%;
+            border-radius: 7px;
+        }
+        a {
+            color: inherit;
+        }
+        .hola {
+            background-color: aqua;
+        }
+        .estatico-sidebar {
+            position: relative;
+        }
+        .margen {
+            margin: 0;
+        }
+        .negro {
+            color: black;
+        }
+        .margen-arriba-nav {
+            margin-top: 0px;
+        }
+        .margen-arriba-nav-sidebar {
+            margin-top: 22px;
+            margin-left: -2%;
+        }
+        .margen-arriba-nav-form {
+            margin-top: 0px;
+            text-align: center;
+            margin-left: 3.9%;
+        }
+        @media (max-width: 768px) {
+            .margen-arriba-nav-sidebar {
+                display: none;
+            }
+        }
+        @media (max-width: 992px) {
+            .margen-arriba-nav-form {
+                margin-right: 20%;
+                margin-left: 20%;
+            }
+        }
+        @media (min-width: 995px) {
+            .estatico-sidebar {
+                position: fixed;
+            }
+            .margen-arriba-nav {
+                margin-top: 80px;
+            }
+            .margen-arriba-nav-sidebar {
+                margin-top: 80px;
+            }
+            .margen-arriba-nav-form {
+                margin-top: 88px;
+                margin-right: 4%;
+            }
+        }
+        @media (min-width: 1600px) {
+            .margen-arriba-nav-form {
+                margin-right: 0%;
+                margin-left: 6%;
+            }
+        }
+        .margen-pdf {
+            margin-right: 5px;
+        }
     </style>
     <title>Fisica</title>
 </head>
@@ -84,7 +83,7 @@ a {
         <div class="row">
             <nav class="navbar bg-body-tertiary estatico-sidebar">
                 <div class="container-fluid">
-                    <button class="navbar-brand btn fs-4 my-1" >Fisica Moderna en 1 minuto</button>
+                    <a class="navbar-brand fs-4 my-1" href="/private">Fisica Moderna en 1 minuto</a>
                     <span class='d-flex'>
                         <i class="fa-solid fa-moon fa-2xl"></i>
                     </span>
@@ -117,21 +116,18 @@ a {
                         <div class="podcast-item" data-tema="<%= podcast.tema %>">
                             <hr class="mb-4" />
                             <div class="row g-2">
-                                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                    <img src="fisica3.jpg" class="imagen-podcast" alt="podcast" />
-                                </div>
+                                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                     <img src="<%= podcast.imagen %>" class="imagen-podcast" alt="podcast" />
+                                </div> 
                                 <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8">
                                     <div>
                                         <span class="fw-bold"><%= podcast.nombre %></span>
                                         <br /><%= podcast.descripcion %>
                                         <br />
                                         <div class="mt-2">
-                                            <a href="fisicamodernapdf.pdf" download class="fa fa-file-pdf margen-pdf"></a>
-                                            <i class="fa fa-play-circle ml-1" id="audio_fa"></i>
-                                            <audio src="fisica1.mp3" type="audio/mpeg" id="audio_podcast_id"></audio>
-                                            <p class="d-inline disabled small blockquote-footer">
-                                                Duration in seconds
-                                            </p>
+                                            <a href="<%= podcast.pdf %>" download class="fa fa-file-pdf margen-pdf"></a>
+                                            <i class="fa-solid fa-circle-play play-button" data-id="audio-<%= podcast.id %>"></i>
+                                            <audio id="audio-<%= podcast.id %>" src="<%= podcast.audio %>"></audio>
                                         </div>
                                     </div>
                                 </div>
@@ -140,6 +136,7 @@ a {
                         <% }) %>
                     </div>
                 </div>
+
                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
                     <div class="estatico-sidebar margen-arriba-nav-form">
                         <div class="w-100 justify-content-center">
@@ -159,6 +156,12 @@ a {
         </div>
     </div>
     <script>
+        const Luna = document.querySelector(".fa-moon");
+        Luna.addEventListener("click", () => {
+            const html = document.querySelector("html");
+            html.dataset.bsTheme = html.dataset.bsTheme === "dark" ? "light" : "dark";
+        });
+
         function filterPodcasts(topic) {
             const podcastItems = document.querySelectorAll('.podcast-item');
             podcastItems.forEach(item => {
@@ -169,7 +172,27 @@ a {
                 }
             });
         }
+
+        // Controlar la reproducción/pausa del audio
+        const playButtons = document.querySelectorAll('.play-button');
+        playButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const audioId = button.getAttribute('data-id');
+                const audio = document.getElementById(audioId);
+
+                if (audio.paused) {
+                    audio.play();
+                    button.classList.remove('fa-circle-play');
+                    button.classList.add('fa-pause');
+                } else {
+                    audio.pause();
+                    button.classList.remove('fa-pause');
+                    button.classList.add('fa-circle-play');
+                }
+            });
+        });
     </script>
+    <script src="/js/script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

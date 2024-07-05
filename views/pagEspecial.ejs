@@ -5,16 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Especial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./cssaw/fontawesome.min.css">
+    <link rel="stylesheet" href="./cssaw/solid.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        .centro{margin: 0 auto;}
+    </style>
 </head>
 <body>
-    <h1>Página Especial</h1>
-    <form action="/private" method="post" enctype="multipart/form-data">
-        <input type="text" name="Nombre" placeholder="Nombre del podcast">
-        <input type="text" name="Tema" placeholder="Tema del podcast">
-        <input type="text" name="Descripcion" placeholder="Descripción del podcast">
-        <input type="file" name="Documento" />
+    <h1>Crear nuevo Podcast</h1>
+    <div class="container-fluid">
+        <div class="centro d-flex w-100">
+    <form action="/private" method="post" enctype="multipart/form-data" class="d-block py-1 my-2">
+        <input type="text" name="Nombre" placeholder="Nombre del podcast" class="d-block py-1 my-2">
+        <input type="text" name="Tema" placeholder="Tema del podcast" class="d-block py-1 my-2">
+        <input type="text" name="Descripcion" placeholder="Descripción del podcast" class="d-block py-1 my-2">
+        <input type="file" name="pdf" />
+        <input type="file" name="imagen" />
+        <input type="file" name="audio" />
       
-        <input type="submit" value="Crear Podcast">
+        <input type="submit" value="Crear Podcast" class="d-block py-1 my-2">
     </form>
+</div>
+</div>
 </body>
 </html>

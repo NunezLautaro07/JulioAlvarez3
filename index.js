@@ -7,7 +7,6 @@ const path = require('path');
 const dotenv = require('dotenv');
 
 dotenv.config();
-const upload = multer({ dest: 'public/' });
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -47,7 +46,9 @@ function createPodcastTable() {
         nombre VARCHAR(255) NOT NULL,
         tema VARCHAR(255) NOT NULL,
         descripcion VARCHAR(255) NOT NULL,
-        pdf BLOB
+        pdf VARCHAR(255),
+        imagen VARCHAR(255),
+        audio VARCHAR(255)
         )
     `;
 
@@ -77,10 +78,25 @@ app.get("/private", (req, res) => {
     res.render("private");
 });
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+});
+
+const upload = multer({ storage: storage }).fields([
+    { name: 'pdf', maxCount: 1 },
+    { name: 'imagen', maxCount: 1 },
+    { name: 'audio', maxCount: 1 }
+]);
+
 // Ruta POST para manejar el inicio de sesión privada y la inserción de podcast
-app.post("/private", upload.single('Documento'), (req, res) => {
+app.post("/private", upload, (req, res) => {
     const { Persona, Contraseña, Nombre, Tema, Descripcion } = req.body;
-    const Documento = req.file;
+    const files = req.files;
 
     if (Persona && Contraseña) {
         // Verifica si se enviaron Persona y Contraseña (autenticación)
@@ -89,32 +105,20 @@ app.post("/private", upload.single('Documento'), (req, res) => {
         } else {
             res.status(401).send("Contraseña incorrecta"); // Autenticación fallida
         }
-    } else if (Nombre && Tema && Descripcion && Documento) {
-        // Verifica si se enviaron Nombre, Tema y Descripcion (inserción de podcast)
-        const query = 'INSERT INTO podcast (nombre, tema, descripcion, pdf) VALUES (?, ?, ?, ?)';
+    } else if (Nombre && Tema && Descripcion && files.pdf && files.imagen && files.audio) {
+        // Verifica si se enviaron Nombre, Tema, Descripcion y todos los archivos
+        const pdfPath = `/uploads/${files.pdf[0].filename}`;
+        const imagenPath = `/uploads/${files.imagen[0].filename}`;
+        const audioPath = `/uploads/${files.audio[0].filename}`;
 
-        // Leer los datos del archivo
-        fs.readFile(Documento.path, (err, pdfData) => {
+        const query = 'INSERT INTO podcast (nombre, tema, descripcion, pdf, imagen, audio) VALUES (?, ?, ?, ?, ?, ?)';
+        database.query(query, [Nombre, Tema, Descripcion, pdfPath, imagenPath, audioPath], (err, result) => {
             if (err) {
-                console.error('Error al leer el archivo:', err);
-                res.status(500).json({ error: 'Error al leer el archivo' });
+                console.error('Error al insertar nuevo podcast:', err);
+                res.status(500).json({ error: 'Error al insertar nuevo podcast' });
             } else {
-                database.query(query, [Nombre, Tema, Descripcion, pdfData], (err, result) => {
-                    if (err) {
-                        console.error('Error al insertar nuevo podcast:', err);
-                        res.status(500).json({ error: 'Error al insertar nuevo podcast' });
-                    } else {
-                        console.log('Nuevo podcast insertado correctamente:', result);
-                        res.redirect('/'); // Redirige a la página principal después de insertar
-
-                        // Elimina el archivo temporal después de procesarlo
-                        fs.unlink(Documento.path, (err) => {
-                            if (err) {
-                                console.error('Error al eliminar el archivo temporal:', err);
-                            }
-                        });
-                    }
-                });
+                console.log('Nuevo podcast insertado correctamente:', result);
+                res.redirect('/'); // Redirige a la página principal después de insertar
             }
         });
     } else {
