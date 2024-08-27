@@ -132,6 +132,10 @@ app.use((req, res, next) => {
 });
 
 // Iniciar el servidor en el puerto especificado
-app.listen(port, () => {
+app.listen(port, (err) => {
+    if (err) {
+        console.error('Error al iniciar el servidor:', err);
+        process.exit(1); // Detener el proceso en caso de error
+    }
     console.log(`Servidor escuchando en http://localhost:${port}`);
 });
