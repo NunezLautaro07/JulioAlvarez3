@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const dotenv = require('dotenv');
+require('dotenv').config();
 const path = require('path');
 
 dotenv.config();
@@ -12,13 +13,13 @@ const port = process.env.PORT || 3000;
 
 // Configuración de Express
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Conexión a MongoDB con Mongoose
-mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/podcasts", {
+mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
