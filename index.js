@@ -55,22 +55,11 @@ const upload = multer({ storage: storage }).fields([
 // Ruta GET para obtener todos los podcasts
 app.get("/", async (req, res) => {
     try {
-        // Accede a la colección directamente
-        const collection = mongoose.connection.db.collection('podcasts');
-
-        // Usa una consulta nativa para encontrar todos los documentos
-        collection.find({}).toArray((err, podcasts) => {
-            if (err) {
-                console.error('Error al obtener los podcasts:', err);
-                return res.status(500).json({ error: 'Error al obtener los podcasts' });
-            }
-            
-            // Renderiza la vista con los datos obtenidos
-            res.render("index", { podcasts });
-        });
+        const podcasts = await Podcast.find();
+        res.render("index", { podcasts });
     } catch (err) {
-        console.error('Error inesperado al obtener los podcasts:', err);
-        res.status(500).json({ error: 'Error inesperado al obtener los podcasts' });
+        console.error('Error al obtener los podcasts:', err);
+        res.status(500).json({ error: 'Error al obtener los podcasts' });
     }
 });
 
